@@ -1,35 +1,59 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 plugins {
     id 'java'
     id 'net.neoforged.gradle.userdev' version '7.0.80'
 }
 
+archivesBaseName = 'FrostpunkMod'
 version = '1.0.0'
-group = 'com.frostpunk'
+group = 'com.frostpunk.frostpunkmod'
+
+repositories {
+    mavenLocal()
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/releases/'
+    }
+    maven {
+        name = 'NeoForged Snapshots'
+        url = 'https://maven.neoforged.net/snapshots/'
+    }
+    maven {
+        name = 'Maven Central'
+        url = 'https://repo1.maven.org/maven2/'
+    }
+    mavenCentral()
+}
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-repositories {
-    mavenLocal()
-    maven {
-        name = "NeoForged"
-        url = "https://maven.neoforged.net/releases"
-    }
-}
+DependencyManagementExtension.class.getMethod('dependency', String).invoke(rootProject.dependencies, 'net.neoforged:neoforge:21.1.27')
 
 dependencies {
     implementation 'net.neoforged:neoforge:21.1.27'
 }
 
-tasks.named('jar', Jar).configure {
-    manifest {
-        attributes([
-                'Specification-Title'      : 'FrostpunkMod',
-                'Specification-Vendor'     : 'savelijkuhnikov-max',
-                'Implementation-Title'     : project.name,
-                'Implementation-Version'   : project.jar.archiveVersion,
-                'Implementation-Vendor'    : 'savelijkuhnikov-max'
-        ])
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+jars {
+    jar {
+        manifest {
+            attributes([
+                    'Specification-Title'      : 'FrostpunkMod',
+                    'Specification-Vendor'     : 'Frostpunk',
+                    'Specification-Version'    : '1',
+                    'Implementation-Title'     : project.name,
+                    'Implementation-Version'   : project.version,
+                    'Implementation-Vendor'    : 'Frostpunk',
+                    'Implementation-Timestamp' : new Date().format('yyyy-MM-dd HH:mm:ss'),
+                    'Built-On-Java'            : System.getProperty('java.version')
+            ])
+        }
     }
 }
