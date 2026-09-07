@@ -1,0 +1,20 @@
+modLoader="javafml"
+loaderVersion="[3,)"
+license="MIT"
+
+[[mods]]
+modId="frostpunkmod"
+version="1.0.0"
+displayName="Frostpunk Mod"
+displayURL="https://github.com/savelijkuhnikov-max/FrostpunkMod"
+logoFile="icon.png"
+credits="Created for hardcore Minecraft survival"
+authors="savelijkuhnikov-max"
+description="""A hardcore winter survival mod inspired by Frostpunk. Features extreme cold mechanics, heat management systems, and survival challenges."""
+
+[[dependencies.frostpunkmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21.1]"
+    ordering="NONE"
+    side="BOTH"
