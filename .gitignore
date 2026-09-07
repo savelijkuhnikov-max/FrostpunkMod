@@ -1,0 +1,36 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.classpath
+*.project
+.settings/
+.eclipse/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Run files
+run/
+runs/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Maven
+target/
+*.jar
+!libs/*.jar
+
+# Compiled
+*.class
+*.log
