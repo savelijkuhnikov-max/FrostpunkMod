@@ -16,12 +16,34 @@
 # limitations under the License.
 #
 
-app_path=$()
-L=$(pwd)
-while:
-  [ -d "$app_path/.gradle" ] || break
-  app_path=$(dirname "$app_path")
-  [ "$app_path" = / ] && app_path=$L && break
+set -e
+
+PROG="$0"
+while [ -h "$PROG" ] ; do
+    ls=$(ls -ld "$PROG")
+    link=$(expr "$ls" : '.*-> \(.*\)$')
+    if expr "$link" : '/.*' > /dev/null; then
+        PROG="$link"
+    else
+        PROG=$(dirname "$PROG")/"$link"
+    fi
 done
-app_base_name=$(basename "$0")
-exec "$app_path/gradlew" "$@"
+
+SCRIPTDIR=$(dirname "$PROG")
+APP_HOME=$(cd "$SCRIPTDIR" && pwd)
+
+APP_NAME="Gradle"
+APP_BASE_NAME=$(basename "$0")
+
+JAR="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+if [ ! -r "$JAR" ]; then
+    echo "Error: Gradle wrapper jar not found at $JAR" >&2
+    exit 1
+fi
+
+if ! command -v java >/dev/null 2>&1; then
+    echo "Error: Java not found in PATH" >&2
+    exit 1
+fi
+
+exec java -Dorg.gradle.appname="$APP_BASE_NAME" -classpath "$JAR" org.gradle.wrapper.GradleWrapperMain "$@"
